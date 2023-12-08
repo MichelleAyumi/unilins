@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <title>Sistema de Aluguel de Carros</title>
+</head>
+<body>
+    <!-- Conteúdo da aplicação será adicionado aqui -->
+    <div class="container mt-5">
+        <h2>Clientes</h2>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#addClienteModal">Adicionar Cliente</button>
+        <table class="table mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Celular</th>
+                    <th>CNH</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="clientesTableBody">
+                <!-- A lista de clientes será adicionada aqui -->
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Modal para adicionar cliente -->
+    <div class="modal" id="addClienteModal">
+        <!-- Conteúdo do modal será adicionado aqui -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Adicionar Cliente</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <!-- Formulário para adicionar cliente -->
+                    <form id="addClienteForm">
+                        <input type="text" id="nome">
+                        <input type="text" id="cpf">
+                        <input type="text" id="celular">
+                        <input type="text" id="cnh">
+                        <button type="submit" class="btn btn-primary">Adicionar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Seu script JavaScript será adicionado aqui -->
+    <!-- Adicione isso ao script JavaScript -->
+    <script>
+        const addClienteForm = document.getElementById('addClienteForm');
+    
+        addClienteForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+    
+            const nome = document.getElementById('nome').value;
+            const cpf = document.getElementById('cpf').value;
+            const celular = document.getElementById('celular').value;
+            const cnh = document.getElementById('cnh').value;
+    
+            // Enviar dados para o backend
+            fetch('http://localhost:8080/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    nome: nome,
+                    cpf: cpf,
+                    celular: celular,
+                    cnh: cnh,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Atualizar a tabela de clientes ou realizar outras ações necessárias
+                console.log('Cliente adicionado:', data);
+                // Fechar o modal
+                $('#addClienteModal').modal('hide');
+            })
+            .catch(error => {
+                console.error('Erro ao adicionar cliente:', error);
+            });
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- Seu script JavaScript será adicionado aqui -->
+</body>
+</html>
